@@ -17,11 +17,10 @@ Original [repository](https://github.com/amplab/ernest).
 
 ### Installation
 
-The requirements for this repo are in requirements.txt. The easiest way to install is: 
+The requirements for this repo are in [requirements.txt](requirements.txt). The easiest way to install is: 
 ```
 pip install -r requirements.txt
 ```
-
 The code runs for Python 2.7
 
 ### Usage
