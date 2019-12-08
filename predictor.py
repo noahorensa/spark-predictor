@@ -77,7 +77,7 @@ if __name__ == "__main__":
   test_data = []
   scale = 0.125
   while scale <= 8:
-    test_data += [[mc, scale] for mc in xrange(2, 129, 2)]
+    test_data += [[mc, scale] for mc in xrange(1, 129, 1)]
     scale *= 2
 
   predicted_times = pred.predict_all(test_data)
