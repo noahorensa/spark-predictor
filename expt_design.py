@@ -139,9 +139,14 @@ def _get_covariance_matrices(features_arr):
 
 def _get_features(training_point):
   ''' Compute the features for a given point. Point is expected to be [input_frac, machines]'''
-  scale = training_point[0]
-  mcs = training_point[1]
-  return [1.0, float(scale) / float(mcs), float(mcs), np.log(mcs)]
+  scale = float(training_point[0])
+  mc = float(training_point[1])
+  totalSize = 700 * 1024 * 1024 * 1024
+  memoryPerMachine = 16 * 1024 * 1024 * 1024
+  cached = 0
+  if scale * totalSize > mc * memoryPerMachine:
+    cached = mc * memoryPerMachine / totalSize
+  return [1.0, cached / mc, (scale - cached) / mc, mc]
 
 
 if __name__ == "__main__":

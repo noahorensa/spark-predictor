@@ -59,9 +59,14 @@ class Predictor(object):
     return len(self.training_data)
 
   def _get_features(self, training_point):
-    mc = training_point[0]
-    scale = training_point[1]
-    return [1.0, float(scale) / float(mc), float(mc), np.log(mc)]
+    mc = float(training_point[0])
+    scale = float(training_point[1])
+    totalSize = 700 * 1024 * 1024 * 1024
+    memoryPerMachine = 16 * 1024 * 1024 * 1024
+    cached = 0
+    if scale * totalSize >  mc * memoryPerMachine:
+      cached = mc * memoryPerMachine / totalSize
+    return [1.0, cached / mc, (scale - cached) / mc, mc]
 
 if __name__ == "__main__":
   if len(sys.argv) != 3:
