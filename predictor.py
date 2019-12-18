@@ -51,6 +51,7 @@ class Predictor(object):
     for p in self.training_data:
       predicted = self.predict(p[0], p[1])
       training_errors.append(predicted / p[2])
+      print p[0], p[1], p[2], predicted, predicted/p[2]
 
     print "Average training error %f%%" % ((np.mean(training_errors) - 1.0)*100.0 )
     return self.model[0]
@@ -66,7 +67,7 @@ class Predictor(object):
     cached = 0
     if scale * totalSize >  mc * memoryPerMachine:
       cached = mc * memoryPerMachine / totalSize
-    return [1.0, cached / mc, (scale - cached) / mc, mc]
+    return [1.0, scale / mc, np.arctan(scale), mc]
 
 if __name__ == "__main__":
   if len(sys.argv) != 3:

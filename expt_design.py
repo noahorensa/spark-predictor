@@ -9,14 +9,14 @@ class ExperimentDesign(object):
   MIN_WEIGHT_FOR_SELECTION = 0.3
 
   '''
-  Represents an experiment design object that can be used to setup
-  and run experiment design.
+  Represents an experiment_new design object that can be used to setup
+  and run experiment_new design.
   '''
   def __init__(self, parts_min, parts_max, total_parts,
                mcs_min=1, mcs_max=16, cores_per_mc=2, budget=10.0,
                num_parts_interpolate=20):
     '''
-    Create an experiment design instance.
+    Create an experiment_new design instance.
 
     :param self: The object being created
     :type self: ExperimentDesign
@@ -32,7 +32,7 @@ class ExperimentDesign(object):
     :type mcs_max: int
     :param cores_per_mc: Cores or slots available per machine
     :type cores_per_mc: int
-    :param budget: Budget for the experiment design problem
+    :param budget: Budget for the experiment_new design problem
     :type budget: float
     :param budget: Number of points to interpolate between parts_min and parts_max
     :type budget: float
@@ -55,7 +55,7 @@ class ExperimentDesign(object):
     return constraints
 
   def _get_cost(self, lambdas, points):
-    '''Estimate the cost of an experiment. Right now this is input_frac/machines'''
+    '''Estimate the cost of an experiment_new. Right now this is input_frac/machines'''
     cost = 0
     num_points = len(points)
     scale_min = float(self.parts_min) / float(self.total_parts)
@@ -66,7 +66,7 @@ class ExperimentDesign(object):
     return cost
 
   def _get_training_points(self):
-    '''Enumerate all the training points given the params for experiment design'''
+    '''Enumerate all the training points given the params for experiment_new design'''
     mcs_range = xrange(self.mcs_min, self.mcs_max + 1)
 
     scale_min = float(self.parts_min) / float(self.total_parts)
@@ -83,7 +83,7 @@ class ExperimentDesign(object):
     return int(np.ceil(fraction * self.total_parts))
 
   def run(self):
-    ''' Run experiment design. Returns a list of configurations and their scores'''
+    ''' Run experiment_new design. Returns a list of configurations and their scores'''
     training_points = list(self._get_training_points())
     num_points = len(training_points)
 
@@ -141,12 +141,7 @@ def _get_features(training_point):
   ''' Compute the features for a given point. Point is expected to be [input_frac, machines]'''
   scale = float(training_point[0])
   mc = float(training_point[1])
-  totalSize = 700 * 1024 * 1024 * 1024
-  memoryPerMachine = 16 * 1024 * 1024 * 1024
-  cached = 0
-  if scale * totalSize > mc * memoryPerMachine:
-    cached = mc * memoryPerMachine / totalSize
-  return [1.0, cached / mc, (scale - cached) / mc, mc]
+  return [1.0, scale / mc, np.arctan(scale), mc]
 
 
 if __name__ == "__main__":
@@ -169,7 +164,7 @@ if __name__ == "__main__":
   parser.add_argument('--cores-per-mc', type=int, default=2,
                       help='Number of cores or slots available per machine, (default 2)')
   parser.add_argument('--budget', type=float, default=10.0,
-                      help='Budget of experiment design problem, (default 10.0)')
+                      help='Budget of experiment_new design problem, (default 10.0)')
   parser.add_argument('--num-parts-interpolate', type=int, default=20,
                       help='Number of points to interpolate between min_parts and max_parts, (default 20)')
 
